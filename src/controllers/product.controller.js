@@ -1,4 +1,4 @@
-const productData = require("../models/MOCK_DATA");
+const productData = require("../modelknex/MOCK_DATA.json");
 
 const allProduct = (req, res) => {
   res.send({
