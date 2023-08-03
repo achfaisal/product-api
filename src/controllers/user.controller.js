@@ -40,4 +40,37 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { create };
+const login = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    if (!password || !username) {
+      return res.status(400).send({
+        message: "some field must be filled, cannot be empty",
+      });
+    }
+
+    const getUser = await userNew.findOne({
+      where: { username: username },
+    });
+
+    if (!getUser) {
+      return res.status(404).send({
+        message: `Username ${username} not found`,
+      });
+    }
+    console.log(getUser);
+
+    return res.status(200).send({
+      message: "login success",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.send({
+      message: "error occured",
+      data: error,
+    });
+  }
+};
+
+module.exports = { create, login };
