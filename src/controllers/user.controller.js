@@ -1,18 +1,43 @@
 const knexQuery = require("../modelknex/knex");
+const { userNew } = require("../models");
+const bcrypt = require("bcryptjs");
 
 const create = async (req, res) => {
-  const body = req.body;
+  try {
+    const { nama_depan, nama_belakang, username, email, password } = req.body;
 
-  const insertData = await knexQuery("users").insert({
-    firstName: body.nama_depan,
-    lastName: body.nama_belakang,
-    email: body.email,
-    password: body.password,
-  });
+    // const insertData = await knexQuery("users").insert({
+    //   firstName: body.nama_depan,
+    //   lastName: body.nama_belakang,
+    //   email: body.email,
+    //   password: body.password,
+    // });
 
-  return res.status(201).send({
-    message: "user created",
-  });
+    if (!nama_depan || !email || !password || !username) {
+      return res.status(400).send({
+        message: "some field must be filled, cannot be empty",
+      });
+    }
+
+    const hashedPassword = bcrypt.hashSync(password, 8);
+
+    const input = await userNew.create({
+      firstname: nama_depan,
+      lastname: nama_belakang,
+      username: username,
+      email: email,
+      password: hashedPassword,
+    });
+
+    return res.status(201).send({
+      message: "user created",
+    });
+  } catch (error) {
+    return res.send({
+      message: "error occured",
+      data: error,
+    });
+  }
 };
 
 module.exports = { create };
