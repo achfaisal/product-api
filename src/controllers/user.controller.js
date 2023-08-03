@@ -1,6 +1,7 @@
 const knexQuery = require("../modelknex/knex");
 const { userNew } = require("../models");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const create = async (req, res) => {
   try {
@@ -73,8 +74,18 @@ const login = async (req, res) => {
       });
     }
 
+    const token = jwt.sign(
+      {
+        id: getUser.dataValues.id,
+        username: getUser.dataValues.username,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: 30 }
+    );
+
     return res.status(200).send({
       message: "login success",
+      token: token,
     });
   } catch (error) {
     console.log(error);
