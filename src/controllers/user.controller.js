@@ -80,7 +80,7 @@ const login = async (req, res) => {
         username: getUser.dataValues.username,
       },
       process.env.JWT_SECRET,
-      { expiresIn: 30 }
+      { expiresIn: 3600 }
     );
 
     return res.status(200).send({
