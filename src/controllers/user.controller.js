@@ -59,7 +59,19 @@ const login = async (req, res) => {
         message: `Username ${username} not found`,
       });
     }
-    console.log(getUser);
+
+    const isValidPassword = bcrypt.compareSync(
+      password,
+      getUser.dataValues.password
+    );
+
+    console.log(isValidPassword);
+
+    if (!isValidPassword) {
+      return res.status(400).send({
+        message: "Invalid Password",
+      });
+    }
 
     return res.status(200).send({
       message: "login success",
