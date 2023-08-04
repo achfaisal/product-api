@@ -127,4 +127,24 @@ const update = async (req, res) => {
   }
 };
 
-module.exports = { create, login, update };
+const deleteUser = async (req, res) => {
+  try {
+    const idUser = req.user.id;
+    const deletedUser = await userNew.destroy({
+      where: { id: idUser },
+    });
+
+    res.status(200).send({
+      message: "your account has been deleted",
+      data: deleteUser,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.send({
+      message: "cannot delete user",
+      data: error,
+    });
+  }
+};
+
+module.exports = { create, login, update, deleteUser };
