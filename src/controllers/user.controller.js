@@ -96,4 +96,35 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { create, login };
+const update = async (req, res) => {
+  try {
+    const idUser = req.user.id;
+    const { nama_depan, nama_belakang, username } = req.body;
+
+    const updatedData = await userNew.update(
+      {
+        firstname: nama_depan,
+        lastname: nama_belakang,
+        username: username,
+      },
+      { where: { id: idUser } }
+    );
+
+    const data = await userNew.findOne({
+      where: { id: idUser },
+    });
+
+    res.status(201).send({
+      message: "user updated",
+      data: data,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.send({
+      message: "error occured",
+      data: error,
+    });
+  }
+};
+
+module.exports = { create, login, update };
