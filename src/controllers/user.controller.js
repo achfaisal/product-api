@@ -7,13 +7,6 @@ const create = async (req, res) => {
   try {
     const { nama_depan, nama_belakang, username, email, password } = req.body;
 
-    // const insertData = await knexQuery("users").insert({
-    //   firstName: body.nama_depan,
-    //   lastName: body.nama_belakang,
-    //   email: body.email,
-    //   password: body.password,
-    // });
-
     if (!nama_depan || !email || !password || !username) {
       return res.status(400).send({
         message: "some field must be filled, cannot be empty",
@@ -127,6 +120,7 @@ const update = async (req, res) => {
   }
 };
 
+// Delete User
 const deleteUser = async (req, res) => {
   try {
     const idUser = req.user.id;

@@ -7,7 +7,7 @@ const { verifyToken } = require("../middlewares/verifyToken");
 
 const router = express.Router();
 
-router.get("/", verifyToken, allProduct);
-router.get("/:productId", verifyToken, productById);
+router.get("/", allProduct);
+router.get("/:productId", productById);
 
 module.exports = router;

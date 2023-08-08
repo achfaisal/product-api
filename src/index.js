@@ -7,6 +7,7 @@ const { sequelize } = require("./models");
 
 const productRouter = require("./routes/product.route");
 const userRouter = require("./routes/user.route");
+const postRouter = require("./routes/post.route");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -28,6 +29,7 @@ app.get("/home", (req, res) => {
 
 app.use("/api/products", productRouter);
 app.use("/api/user", userRouter);
+app.use("/api/post", postRouter);
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log(`Server is running on ${PORT}`);
